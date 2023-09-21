@@ -11,13 +11,13 @@ async function isAdminEmail(email) {
 }
 
 export const authOptions = {
-  secret: process.env.SECRET,
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_ID,
       clientSecret: process.env.GOOGLE_SECRET
     }),
   ],
+  secret: process.env.SECRET,
   adapter: MongoDBAdapter(clientPromise),
   callbacks: {
     session: async ({session,token,user}) => {
