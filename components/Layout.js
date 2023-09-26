@@ -6,7 +6,7 @@ import Logo from "@/components/Logo";
 export default function Layout({ children }) {
   const [showNav, setShowNav] = useState(false);
   const { data: session } = useSession();
-  if (session) {
+  if (!session) {
     return (
       <div className="bg-bgGray w-screen h-screen flex items-center">
         <div className="text-center w-full">

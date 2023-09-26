@@ -1,10 +1,10 @@
 import Layout from "@/components/Layout";
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import Spinner from "@/components/Spinner";
-import {withSwal} from "react-sweetalert2";
+import { withSwal } from "react-sweetalert2";
 
-function SettingsPage({swal}) {
+function SettingsPage({ swal }) {
   const [products, setProducts] = useState([]);
   const [featuredProductId, setFeaturedProductId] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -41,29 +41,29 @@ function SettingsPage({swal}) {
     });
     setIsLoading(false);
     await swal.fire({
-      title: 'Settings saved!',
+      title: 'Настройки сохранены!',
       icon: 'success',
     });
   }
 
   return (
     <Layout>
-      <h1>Settings</h1>
+      <h1>Настройки</h1>
       {isLoading && (
         <Spinner />
       )}
       {!isLoading && (
         <>
-          <label>Featured product</label>
+          <label>Главный продукт</label>
           <select value={featuredProductId} onChange={ev => setFeaturedProductId(ev.target.value)}>
             {products.length > 0 && products.map(product => (
               <option key={product._id} value={product._id}>{product.title}</option>
             ))}
           </select>
-          <label>Shipping price (in usd)</label>
+          <label>Цена доставки (в тенге)</label>
           <input type="number"
-                 value={shippingFee}
-                 onChange={ev => setShippingFee(ev.target.value)}
+            value={shippingFee}
+            onChange={ev => setShippingFee(ev.target.value)}
           />
           <div>
             <button onClick={saveSettings} className="btn-primary">Save settings</button>
@@ -74,6 +74,6 @@ function SettingsPage({swal}) {
   );
 }
 
-export default withSwal(({swal}) => (
+export default withSwal(({ swal }) => (
   <SettingsPage swal={swal} />
 ));

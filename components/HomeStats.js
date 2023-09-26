@@ -1,11 +1,11 @@
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import Spinner from "@/components/Spinner";
-import {subHours} from "date-fns";
+import { subHours } from "date-fns";
 
 export default function HomeStats() {
-  const [orders,setOrders] = useState([]);
-  const [isLoading,setIsLoading] = useState(false);
+  const [orders, setOrders] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     setIsLoading(true);
     axios.get('/api/orders').then(res => {
@@ -17,14 +17,14 @@ export default function HomeStats() {
   function ordersTotal(orders) {
     let sum = 0;
     orders.forEach(order => {
-      const {line_items} = order;
+      const { line_items } = order;
       line_items.forEach(li => {
         const lineSum = li.quantity * li.price_data.unit_amount / 100;
         sum += lineSum;
       });
     });
-    console.log({orders});
-    return new Intl.NumberFormat('sv-SE').format(sum);
+    console.log({ orders });
+    return new Intl.NumberFormat('ru-Ru').format(sum);
   }
 
   if (isLoading) {
@@ -35,46 +35,46 @@ export default function HomeStats() {
     );
   }
 
-  const ordersToday = orders.filter(o =>  new Date(o.createdAt) > subHours(new Date, 24));
-  const ordersWeek = orders.filter(o =>  new Date(o.createdAt) > subHours(new Date, 24*7));
-  const ordersMonth = orders.filter(o =>  new Date(o.createdAt) > subHours(new Date, 24*30));
+  const ordersToday = orders.filter(o => new Date(o.createdAt) > subHours(new Date, 24));
+  const ordersWeek = orders.filter(o => new Date(o.createdAt) > subHours(new Date, 24 * 7));
+  const ordersMonth = orders.filter(o => new Date(o.createdAt) > subHours(new Date, 24 * 30));
 
   return (
     <div>
-      <h2>Orders</h2>
+      <h2>Заказы</h2>
       <div className="tiles-grid">
         <div className="tile">
-          <h3 className="tile-header">Today</h3>
+          <h3 className="tile-header">Сегодня</h3>
           <div className="tile-number">{ordersToday.length}</div>
-          <div className="tile-desc">{ordersToday.length} orders today</div>
+          <div className="tile-desc">{ordersToday.length} заказов сегодня</div>
         </div>
         <div className="tile">
-          <h3 className="tile-header">This week</h3>
+          <h3 className="tile-header">На этой неделе</h3>
           <div className="tile-number">{ordersWeek.length}</div>
-          <div className="tile-desc">{ordersWeek.length} orders this week</div>
+          <div className="tile-desc">{ordersWeek.length} заказов на этой неделе</div>
         </div>
         <div className="tile">
-          <h3 className="tile-header">This month</h3>
+          <h3 className="tile-header">В этом месяце</h3>
           <div className="tile-number">{ordersMonth.length}</div>
-          <div className="tile-desc">{ordersMonth.length} orders this month</div>
+          <div className="tile-desc">{ordersMonth.length} заказов в этом месяце</div>
         </div>
       </div>
-      <h2>Revenue</h2>
+      <h2>Прибыль</h2>
       <div className="tiles-grid">
         <div className="tile">
-          <h3 className="tile-header">Today</h3>
-          <div className="tile-number">$ {ordersTotal(ordersToday)}</div>
-          <div className="tile-desc">{ordersToday.length} orders today</div>
+          <h3 className="tile-header">Сегодня</h3>
+          <div className="tile-number">{ordersTotal(ordersToday)} тг</div>
+          <div className="tile-desc">{ordersToday.length} заказов сегодня</div>
         </div>
         <div className="tile">
-          <h3 className="tile-header">This week</h3>
-          <div className="tile-number">$ {ordersTotal(ordersWeek)}</div>
-          <div className="tile-desc">{ordersWeek.length} orders this week</div>
+          <h3 className="tile-header">На этой неделе</h3>
+          <div className="tile-number">{ordersTotal(ordersWeek)} тг</div>
+          <div className="tile-desc">{ordersWeek.length} заказов на этой неделе</div>
         </div>
         <div className="tile">
-          <h3 className="tile-header">This month</h3>
-          <div className="tile-number">$ {ordersTotal(ordersMonth)}</div>
-          <div className="tile-desc">{ordersMonth.length} orders this month</div>
+          <h3 className="tile-header">В этом месяце</h3>
+          <div className="tile-number">{ordersTotal(ordersMonth)} тг</div>
+          <div className="tile-desc">{ordersMonth.length} заказов в этом месяце</div>
         </div>
       </div>
     </div>

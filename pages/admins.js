@@ -1,27 +1,27 @@
 import Layout from "@/components/Layout";
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
-import {withSwal} from "react-sweetalert2";
+import { withSwal } from "react-sweetalert2";
 import Spinner from "@/components/Spinner";
-import {prettyDate} from "@/lib/date";
+import { prettyDate } from "@/lib/date";
 
-function AdminsPage({swal}) {
-  const [email,setEmail] = useState('');
-  const [adminEmails,setAdminEmails] = useState([]);
-  const [isLoading,setIsLoading] = useState(false);
-  function addAdmin(ev){
+function AdminsPage({ swal }) {
+  const [email, setEmail] = useState('');
+  const [adminEmails, setAdminEmails] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  function addAdmin(ev) {
     ev.preventDefault();
-    axios.post('/api/admins', {email}).then(res => {
+    axios.post('/api/admins', { email }).then(res => {
       console.log(res.data);
       swal.fire({
-        title: 'Admin created!',
+        title: 'Администратор создан!',
         icon: 'success',
       });
       setEmail('');
       loadAdmins();
     }).catch(err => {
       swal.fire({
-        title: 'Error!',
+        title: 'Ошибка!',
         text: err.response.data.message,
         icon: 'error',
       });
@@ -29,18 +29,18 @@ function AdminsPage({swal}) {
   }
   function deleteAdmin(_id, email) {
     swal.fire({
-      title: 'Are you sure?',
-      text: `Do you want to delete admin ${email}?`,
+      title: 'Вы уверены?',
+      text: `Вы хотите удалить администратора ${email}?`,
       showCancelButton: true,
-      cancelButtonText: 'Cancel',
-      confirmButtonText: 'Yes, Delete!',
+      cancelButtonText: 'Отменить',
+      confirmButtonText: 'Да, удалить!',
       confirmButtonColor: '#d55',
       reverseButtons: true,
     }).then(async result => {
       if (result.isConfirmed) {
-        axios.delete('/api/admins?_id='+_id).then(() => {
+        axios.delete('/api/admins?_id=' + _id).then(() => {
           swal.fire({
-            title: 'Admin deleted!',
+            title: 'Админинстратор удален!',
             icon: 'success',
           });
           loadAdmins();
@@ -60,8 +60,8 @@ function AdminsPage({swal}) {
   }, []);
   return (
     <Layout>
-      <h1>Admins</h1>
-      <h2>Add new admin</h2>
+      <h1>Админы</h1>
+      <h2>Добавить нового админа</h2>
       <form onSubmit={addAdmin}>
         <div className="flex gap-2">
           <input
@@ -69,20 +69,20 @@ function AdminsPage({swal}) {
             className="mb-0"
             value={email}
             onChange={ev => setEmail(ev.target.value)}
-            placeholder="google email"/>
+            placeholder="Google почта" />
           <button
             type="submit"
             className="btn-primary py-1 whitespace-nowrap">
-            Add admin
+            Добавить админа
           </button>
         </div>
       </form>
 
-      <h2>Existing admins</h2>
+      <h2>Существуюшие админы</h2>
       <table className="basic">
         <thead>
           <tr>
-            <th className="text-left">Admin google email</th>
+            <th className="text-left">Гугл почта админа</th>
             <th></th>
             <th></th>
           </tr>
@@ -115,6 +115,6 @@ function AdminsPage({swal}) {
   );
 }
 
-export default withSwal(({swal}) => (
+export default withSwal(({ swal }) => (
   <AdminsPage swal={swal} />
 ));
