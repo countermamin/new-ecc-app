@@ -159,7 +159,7 @@ const ProductForm = ({
       ></textarea>
       <label >Цена товара</label>
       <input
-        type='text'
+        type='number'
         placeholder={'цена'}
         value={price}
         onChange={(e) => setPrice(e.target.value)}
