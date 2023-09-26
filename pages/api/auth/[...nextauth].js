@@ -33,7 +33,6 @@ export const authOptions = {
 export default NextAuth(authOptions);
 
 export async function isAdminRequest(req, res) {
-  return true;
   const session = await getServerSession(req, res, authOptions);
   if (!(await isAdminEmail(session?.user?.email))) {
     res.status(401);
