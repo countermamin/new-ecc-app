@@ -12,7 +12,6 @@ function AdminsPage({ swal }) {
   function addAdmin(ev) {
     ev.preventDefault();
     axios.post('/api/admins', { email }).then(res => {
-      console.log(res.data);
       swal.fire({
         title: 'Администратор создан!',
         icon: 'success',
@@ -105,7 +104,7 @@ function AdminsPage({ swal }) {
               </td>
               <td>
                 <button
-                  onClick={() => deleteAdmin(adminEmail._id, adminEmail.email)} className="btn-red">Delete</button>
+                  onClick={() => deleteAdmin(adminEmail._id, adminEmail.email)} className="btn-red">Удалить</button>
               </td>
             </tr>
           ))}
